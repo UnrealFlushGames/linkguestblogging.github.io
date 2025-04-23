@@ -1,6 +1,7 @@
 document.getElementById('guestPostForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+    e.preventDefault();  // Prevent default form submission behavior
 
+    // Collect form data
     const formData = {
         name: document.getElementById('name').value,
         niche: document.getElementById('niche').value,
@@ -11,20 +12,21 @@ document.getElementById('guestPostForm').addEventListener('submit', async functi
     };
 
     try {
-        // Replace this URL with your actual webhook URL
+        // n8n webhook URL (you will replace this with your actual webhook URL)
         const webhookUrl = 'http://localhost:5678/webhook-test/guestform';
         
+        // Send data to the n8n webhook
         const response = await fetch(webhookUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData)  // Send data as JSON
         });
 
         if (response.ok) {
             alert('Form submitted successfully!');
-            this.reset();
+            this.reset();  // Reset the form
         } else {
             throw new Error('Form submission failed');
         }
