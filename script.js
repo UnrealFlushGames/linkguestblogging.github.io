@@ -12,7 +12,7 @@ document.getElementById('guestPostForm').addEventListener('submit', async functi
 
     try {
         // Replace this URL with your actual webhook URL
-        const webhookUrl = 'https://your-webhook-url-here.com';
+        const webhookUrl = 'http://localhost:5678/webhook-test/guestform';
         
         const response = await fetch(webhookUrl, {
             method: 'POST',
