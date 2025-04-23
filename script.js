@@ -1,5 +1,5 @@
 document.getElementById('guestPostForm').addEventListener('submit', async function(e) {
-    e.preventDefault();  // Prevent default form submission behavior
+    e.preventDefault();
 
     // Collect form data
     const formData = {
@@ -12,21 +12,24 @@ document.getElementById('guestPostForm').addEventListener('submit', async functi
     };
 
     try {
-        // n8n webhook URL (you will replace this with your actual webhook URL)
-        const webhookUrl = 'http://localhost:5678/webhook-test/guestform';
+        // ✅ This is your ngrok webhook URL from n8n
+        const webhookUrl = 'https://8620-58-65-214-39.ngrok-free.app/webhook-test/guestform';
         
-        // Send data to the n8n webhook
         const response = await fetch(webhookUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData)  // Send data as JSON
+            body: JSON.stringify(formData)
         });
+
+        // Optional: Log what came back from n8n
+        const responseData = await response.text();
+        console.log('Webhook response:', responseData);
 
         if (response.ok) {
             alert('Form submitted successfully!');
-            this.reset();  // Reset the form
+            this.reset(); // Clear the form
         } else {
             throw new Error('Form submission failed');
         }
