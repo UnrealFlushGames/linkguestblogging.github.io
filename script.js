@@ -13,7 +13,7 @@ document.getElementById('guestPostForm').addEventListener('submit', async functi
 
     try {
         // ✅ This is your ngrok webhook URL from n8n
-        const webhookUrl = 'https://4bec-58-65-214-39.ngrok-free.app/webhook-test/guestform';
+        const webhookUrl = 'http://localhost:8080/proxy'; // New proxy URL
         
         const response = await fetch(webhookUrl, {
             method: 'POST',
