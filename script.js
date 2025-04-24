@@ -1,4 +1,4 @@
-document.getElementById('guestPostForm').addEventListener('submit', async function(e) {
+document.getElementById('guestsPostForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     // Collect form data
@@ -11,19 +11,23 @@ document.getElementById('guestPostForm').addEventListener('submit', async functi
         notes: document.getElementById('notes').value
     };
 
+    // Target URL where the data should ultimately be sent
+    const targetUrl = 'http://localhost:5678/webhook-test/guestform';
+
+    // Ngrok proxy endpoint (your Express proxy server running behind ngrok)
+    const webhookUrl = 'https://4bce-58-65-214-39.ngrok-free.app/proxy';
+
     try {
-        // ✅ This is your ngrok webhook URL from n8n
-        const webhookUrl = 'https://4bce-58-65-214-39.ngrok-free.app/proxy';
-        
+        // Send the data via the proxy
         const response = await fetch(webhookUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({ targetUrl, data: formData })
         });
 
-        // Optional: Log what came back from n8n
+        // Read response text
         const responseData = await response.text();
         console.log('Webhook response:', responseData);
 
@@ -31,7 +35,7 @@ document.getElementById('guestPostForm').addEventListener('submit', async functi
             alert('Form submitted successfully!');
             this.reset(); // Clear the form
         } else {
-            throw new Error('Form submission failed');
+            throw new Error('Form submission failed: ' + responseData);
         }
     } catch (error) {
         console.error('Error:', error);
